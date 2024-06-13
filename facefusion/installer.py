@@ -18,6 +18,7 @@ if is_macos():
 	ONNXRUNTIMES['default'] = ('onnxruntime', '1.17.3')
 else:
 	ONNXRUNTIMES['default'] = ('onnxruntime', '1.17.3')
+	ONNXRUNTIMES['cuda-12.5'] = ('onnxruntime-gpu', '1.18.0')
 	ONNXRUNTIMES['cuda-12.2'] = ('onnxruntime-gpu', '1.17.1')
 	ONNXRUNTIMES['cuda-11.8'] = ('onnxruntime-gpu', '1.17.1')
 	ONNXRUNTIMES['openvino'] = ('onnxruntime-openvino', '1.15.0')
@@ -72,6 +73,8 @@ def run(program : ArgumentParser) -> None:
 		else:
 			subprocess.call([ 'pip', 'uninstall', 'onnxruntime', onnxruntime_name, '-y', '-q' ])
 			if onnxruntime == 'cuda-12.2':
+				subprocess.call([ 'pip', 'install', onnxruntime_name + '==' + onnxruntime_version, '--extra-index-url', 'https://aiinfra.pkgs.visualstudio.com/PublicPackages/_packaging/onnxruntime-cuda-12/pypi/simple', '--force-reinstall' ])
+			else if onnxruntime == 'cuda-12.5':
 				subprocess.call([ 'pip', 'install', onnxruntime_name + '==' + onnxruntime_version, '--extra-index-url', 'https://aiinfra.pkgs.visualstudio.com/PublicPackages/_packaging/onnxruntime-cuda-12/pypi/simple', '--force-reinstall' ])
 			else:
 				subprocess.call([ 'pip', 'install', onnxruntime_name + '==' + onnxruntime_version, '--force-reinstall' ])
